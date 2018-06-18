@@ -27,7 +27,13 @@ const oneThroughFive$ = from([1, 2, 3, 4, 5]).pipe(source => {
 })
 
 oneThroughFive$.subscribe({
-  next: value => value /*?*/,
-  complete: () => "done" /*?*/, //never called
-  error: value => value /*?*/ //never called
+  next: value => {
+    console.log(value)
+  },
+  complete: () => {
+    console.log("done")
+  },
+  error: value => {
+    console.log(value) //never called
+  }
 })

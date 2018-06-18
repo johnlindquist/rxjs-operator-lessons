@@ -1,15 +1,21 @@
 import { Observable } from "rxjs"
 
-const myObservable = new Observable(subscriber => {
+const observable$ = new Observable(subscriber => {
   subscriber.next(1)
   subscriber.next(2)
   subscriber.error(":(")
-  subscriber.complete() //error prevents complete
   subscriber.next(3) //error prevents next
+  subscriber.complete() //error prevents complete
 })
 
-myObservable.subscribe({
-  next: value => value /*?*/,
-  complete: () => "done" /*?*/,
-  error: value => value /*?*/
+observable$.subscribe({
+  next: value => {
+    console.log(value)
+  },
+  complete: () => {
+    console.log("done")
+  },
+  error: value => {
+    console.log(value)
+  }
 })

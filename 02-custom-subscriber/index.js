@@ -15,7 +15,13 @@ const myObservable = new Observable(subscriber => {
 })
 
 myObservable.subscribe({
-  next: value => value /*?*/,
-  complete: () => "done" /*?*/, //never called
-  error: value => value /*?*/ //never called
+  next: value => {
+    console.log(value)
+  },
+  complete: () => {
+    console.log("done") //never called
+  },
+  error: value => {
+    console.log(value) //never called
+  }
 })

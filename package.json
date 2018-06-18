@@ -5,5 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "rxjs": "^6.2.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1"
   }
 }
