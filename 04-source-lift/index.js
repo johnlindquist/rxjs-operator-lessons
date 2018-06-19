@@ -1,27 +1,31 @@
-import { from, Subscriber } from "rxjs"
+import { from, Subscriber, Observable } from "rxjs"
 
-class DoubleSubscriber extends Subscriber {
-  _next(value) {
-    this.destination.next(value * 2)
-  }
-}
+const observable$ = from([1, 2, 3, 4, 5])
 
-const oneThroughFive$ = from([1, 2, 3, 4, 5]).pipe(source => {
-  return source.lift({
-    call(subscriber, source) {
-      source.subscribe(new DoubleSubscriber(subscriber))
-    }
-  })
-})
-
-oneThroughFive$.subscribe({
+const subscriber = {
   next: value => {
     console.log(value)
   },
   complete: () => {
-    console.log("done") //never called
+    console.log("done")
   },
   error: value => {
-    console.log(value) //never called
+    console.log(value)
   }
-})
+}
+
+class DoubleSubscriber extends Subscriber {
+  _next(value) {
+    console.log(value)
+    this.destination.next(value * 2)
+  }
+}
+
+const double = source =>
+  source.lift({
+    call(sub, source) {
+      source.subscribe(new DoubleSubscriber(sub))
+    }
+  })
+
+observable$.pipe(double).subscribe(subscriber)

@@ -15,9 +15,5 @@ const subscriber = {
   }
 }
 
-observable$
-  .pipe(multiply(3))
-  .subscribe(subscriber)
-observable$
-  .pipe(multiply(4))
-  .subscribe(subscriber)
+observable$.pipe(multiply(3)).subscribe(subscriber)
+observable$.pipe(multiply(4)).subscribe(subscriber)

@@ -1,26 +1,20 @@
 import { Subscriber } from "rxjs"
-class MapSubscriber extends Subscriber {
-  constructor(destination, predicate) {
-    super(destination)
 
-    this.predicate = predicate
+class MapSubscriber extends Subscriber {
+  constructor(sub, fn) {
+    super(sub)
+
+    this.fn = fn
   }
 
   _next(value) {
-    this.destination.next(this.predicate(value))
+    this.destination.next(this.fn(value))
   }
 }
 
-class MapOperator {
-  constructor(predicate) {
-    this.predicate = predicate
-  }
-
-  call(subscriber, source) {
-    source.subscribe(new MapSubscriber(subscriber, this.predicate))
-  }
-}
-
-export const map = predicate => source => {
-  return source.lift(new MapOperator(predicate))
-}
+export const map = fn => source =>
+  source.lift({
+    call(sub, source) {
+      source.subscribe(new MapSubscriber(sub, fn))
+    }
+  })

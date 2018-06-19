@@ -1,14 +1,8 @@
-import { Observable } from "rxjs"
+import { from } from "rxjs"
 
-const observable$ = new Observable(subscriber => {
-  subscriber.next(1)
-  subscriber.next(2)
-  subscriber.error(":(")
-  subscriber.next(3) //error prevents next
-  subscriber.complete() //error prevents complete
-})
+const observable$ = from([1, 2, 3, 4, 5])
 
-observable$.subscribe({
+const subscriber = {
   next: value => {
     console.log(value)
   },
@@ -18,4 +12,6 @@ observable$.subscribe({
   error: value => {
     console.log(value)
   }
-})
+}
+
+observable$.subscribe(subscriber)

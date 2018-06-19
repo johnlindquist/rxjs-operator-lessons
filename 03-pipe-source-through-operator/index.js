@@ -1,32 +1,36 @@
-import { from, Observable, Subscriber } from "rxjs"
+import { from, Subscriber, Observable } from "rxjs"
 
-class DontDoThis extends Subscriber {
-  _next(value) {
-    this.destination.next(value + ` - Don't do this!!!`)
-  }
-}
+const observable$ = from([1, 2, 3, 4, 5])
 
-const oneThroughFive$ = from([1, 2, 3, 4, 5]).pipe(source => {
-  //don't do this
-  const observable$ = new Observable()
-  observable$.source = source
-  observable$.operator = {
-    call(subscriber, source) {
-      source.subscribe(new DontDoThis(subscriber))
-    }
-  }
-
-  return observable$
-})
-
-oneThroughFive$.subscribe({
+const subscriber = {
   next: value => {
     console.log(value)
   },
   complete: () => {
-    console.log("done") //never called
+    console.log("done")
   },
   error: value => {
-    console.log(value) //never called
+    console.log(value)
   }
-})
+}
+
+class DoubleSubscriber extends Subscriber {
+  _next(value) {
+    console.log(value)
+    this.destination.next(value * 2)
+  }
+}
+
+observable$
+  .pipe(source => {
+    //don't do it this way!
+    const o$ = new Observable()
+    o$.source = source
+    o$.operator = {
+      call(sub, source) {
+        source.subscribe(new DoubleSubscriber(sub))
+      }
+    }
+    return o$
+  })
+  .subscribe(subscriber)
