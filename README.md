@@ -1,4 +1,6 @@
-# Create Operators in RxJS
+# Explore RxJS Pipeable Operators
+
+RxJS starts by pushing values from Observables and ends in Subscribers handling the output. Operators handle all of the "in-between" operations where you can manipulate the values while they're still in-flight. This course dives into how Operators are made and how to customize operators to your specific needs.
 
 ## Create a Generic Subscriber in RxJS
 
