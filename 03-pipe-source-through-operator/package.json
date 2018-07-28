@@ -1,0 +1,9 @@
+{
+  "name": "rxjs-operators",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "rxjs": "^6.2.1"
+  }
+}
